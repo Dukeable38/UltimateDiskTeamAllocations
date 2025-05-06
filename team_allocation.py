@@ -70,7 +70,11 @@ def print_statistics(print_screen_number):
     sizeOfWhite = len(white_team)
     startingCountDiff = abs(sizeOfBlack - sizeOfWhite)
     startingScoreDiff = abs(blackTeamTotalScore-whiteTeamTotalScore)
-    startingScoreAvgDiff = (blackTeamTotalScore/sizeOfBlack) - (whiteTeamTotalScore/sizeOfWhite)
+    try:
+        startingScoreAvgDiff = (blackTeamTotalScore/sizeOfBlack) - (whiteTeamTotalScore/sizeOfWhite)
+
+    except:
+        startingScoreAvgDiff = 0
 
     if print_screen_number == 1:
         
@@ -162,7 +166,10 @@ def get_difference():
     # General differnce calculations
     sizeDifference = abs(blackSize - whiteSize) # Size difference between both teams (ABS = positive number only)
     actualScoreDiff = abs(blackTeamTotalScore - whiteTeamTotalScore) # Same deal as above
-    avgScoreDiff = abs((blackTeamTotalScore/blackSize) - (whiteTeamTotalScore/whiteSize)) # Also same deal
+    try:
+        avgScoreDiff = abs((blackTeamTotalScore/blackSize) - (whiteTeamTotalScore/whiteSize)) # Also same deal
+    except:
+        avgScoreDiff = 0
 
     #Who has a bigger team?
     if blackSize > whiteSize: # BLACK bigger than WHITE
@@ -242,14 +249,24 @@ def initalise_first_sorting():
 
     # Sorts BLACKS and WHITES into their sides (force)
     print("=======") 
+
+    preAssigns = 0
+
     for player in team_list: # Sorts every player who only wears one colour shirt
         if player[3] == 'black':
             add_player_to_team(player, 'black')
+            preAssigns =+ 1
         elif player[3] == 'white':
             add_player_to_team(player, 'white')
+            preAssigns =+ 1
+
         else:
             pass # These people are reserved for later
-    print_statistics(1)
+    if preAssigns >= 1:
+        print_statistics(1)
+    else:    
+        print("[NO PRE-ALLOCATIONS]")
+        print("*All players have BOTH shirt colours*")
     sort_remaining_players()
 
 
